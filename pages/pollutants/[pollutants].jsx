@@ -1,7 +1,9 @@
+// [pollutants].jsx 
 import { useRouter } from 'next/router';
 import { pollutants } from '../../lib/pollutants';
 import PollutantCard from '../../components/PollutantCard';
 import Link from 'next/link';
+import { FiArrowLeft } from 'react-icons/fi';
 
 export default function PollutantPage() {
     const router = useRouter();
@@ -11,20 +13,16 @@ export default function PollutantPage() {
     if (!data) return <p>Loading...</p>;
 
     return (
-        <div className="min-h-screen bg-gray-900 p-6">
-            <Link href="/" className="text-blue-300 underline mb-4 inline-block">Back to Home</Link>
-            <PollutantCard {...data} />
+        <div className="min-h-screen bg-gradient-to-br from-blue-900 via-gray-800 to-gray-900 p-6">
+            <div className="max-w-4xl mx-auto">
+                <Link href="/" 
+                    className="group inline-flex items-center text-blue-300/80 hover:text-cyan-300 transition-colors mb-8">
+                    <FiArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" />
+                    Back to Home
+                </Link>
+
+                <PollutantCard {...data} />
+            </div>
         </div>
     );
-}
-
-export async function getStaticPaths() {
-    const paths = pollutants.map(p => ({
-        params: { pollutant: p.name.toLowerCase().replace(/\s/g, '-') },
-    }));
-    return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }) {
-    return { props: {} };
 }
